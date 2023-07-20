@@ -13,8 +13,9 @@ namespace Application.Interface
     public interface IMercado
     {
         Result CadastrarMercado(CadastrarMercadoRequestDTO mercadoDTO);
-        MercadoResponseDTO MercadoById(int id);
-        List<MercadoResponseDTO> MercadoList();
+        Result UpdateMercado(UpdateMercadoRequestDTO mercadoDTO);
+        MercadoResponseDTO getMercadoById(int id);
+        List<MercadoResponseDTO> getListMercado();
         Result AtivarMercado(AtivarContaDTO request);
         Result EsqueceuSenhaMercado(EsqueceuSenhaMercaoDTO request);
     }

@@ -52,6 +52,9 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("QuantidadeProduto")
+                        .HasColumnType("int");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
@@ -73,11 +76,19 @@ namespace Domain.Migrations
                     b.Property<int>("Ativo")
                         .HasColumnType("int");
 
+                    b.Property<string>("CEP")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("EnderecoMercado")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImagemMercado")
                         .IsRequired()
                         .HasColumnType("longtext");
 

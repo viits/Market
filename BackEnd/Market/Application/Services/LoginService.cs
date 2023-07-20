@@ -1,6 +1,7 @@
 ﻿using Application.Interface;
 using Domain.Data;
 using Domain.DTOS.Request;
+using Domain.DTOS.Response;
 using Domain.Model;
 using FluentResults;
 using System;
@@ -20,45 +21,56 @@ namespace Application.Services
             _context = marketContext;
             _tokenService = tokenService;
         }
-        public Result LoginMercado(LoginRequestDTO login)
+        public LoginResponseDTO LoginMercado(LoginRequestDTO login)
         {
             try
             {
                 var mercado = _context.Mercados.Where(m => m.Email == login.Email && m.Senha == login.Senha).FirstOrDefault();
-                if (mercado == null) return Result.Fail("Email ou senha Invalidas! ");
-                if (mercado.Ativo == 0) return Result.Fail("Mercado não esta ativo! ");
+                if (mercado == null) return null;
+                if (mercado.Ativo == 0) return null;
                 var logar = new LogaTokenRequestDTO()
                 {
                     Nome = mercado.NomeMercado,
                     Id = mercado.Id
                 };
                 Token token = _tokenService.CreateTokenMercado(logar);
-                return Result.Ok().WithSuccess(token.Value);
+                LoginResponseDTO loginDTO = new LoginResponseDTO()
+                {
+                    MercadoId = mercado.Id,
+                    Token = token.Value
+                };
+                return loginDTO;
             }
             catch (Exception ex)
             {
-                return Result.Fail(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
-        public Result LoginUsuario(LoginRequestDTO login)
+        public LoginUsuarioResponseDTO LoginUsuario(LoginRequestDTO login)
         {
             try
             {
                 var usuario = _context.Usuarios.Where(m => m.Email == login.Email && m.Senha == login.Senha).FirstOrDefault();
-                if (usuario == null) return Result.Fail("Email ou senha Invalidas! ");
-                if (usuario.Ativo == 0) return Result.Fail("Mercado não esta ativo! ");
+                if (usuario == null) return null;
+                if (usuario.Ativo == 0) return null;
                 var loga = new LogaTokenRequestDTO()
                 {
                     Nome = usuario.NomeUsuario,
                     Id = usuario.Id
                 };
                 Token token = _tokenService.CreateTokenMercado(loga);
-                return Result.Ok().WithSuccess(token.Value);
+
+                LoginUsuarioResponseDTO loginDTO = new LoginUsuarioResponseDTO()
+                {
+                    UsuarioId = usuario.Id,
+                    Token = token.Value
+                };
+                return loginDTO;
             }
             catch (Exception ex)
             {
-                return Result.Fail(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }

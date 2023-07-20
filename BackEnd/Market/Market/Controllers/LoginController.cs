@@ -19,8 +19,8 @@ namespace Market.Controllers
             try
             {
                 var resultado = _context.LoginMercado(loginRequestDTO);
-                if (resultado.IsFailed) return BadRequest(resultado.Reasons);
-                return Ok(resultado.Reasons);
+                if (resultado == null) return BadRequest("Usuario ou senhas invalidas!");
+                return Ok(resultado);
             }catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -32,8 +32,8 @@ namespace Market.Controllers
             try
             {
                 var resultado = _context.LoginUsuario(loginRequestDTO);
-                if (resultado.IsFailed) return BadRequest(resultado.Reasons);
-                return Ok(resultado.Reasons);
+                if (resultado == null) return BadRequest("Usuário ou Senha inválidas");
+                return Ok(resultado);
             }
             catch (Exception ex)
             {

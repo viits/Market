@@ -10,6 +10,8 @@ namespace Domain.DTOS.Response.ListaResponse
     {
         public int ListaId { get; set; }
         public int ProdutoId { get; set; }
+        public int QuantidadeProduto { get; set; }
+        public int UsuarioId { get; set; }
         public int MercadoId { get; set; }
         public string NomeProduto { get; set; }
         public string EnderecoImagem { get; set; }

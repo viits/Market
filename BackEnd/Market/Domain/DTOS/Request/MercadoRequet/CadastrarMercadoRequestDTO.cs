@@ -11,6 +11,9 @@ namespace Domain.DTOS.Request.MercadoRequet
     {
         [Required]
         public string NomeMercado { get; set; }
+        public string ImagemMercado { get; set; }
+        [Required]
+        public string CEP { get; set; }
         [Required]
         public string EnderecoMercado { get; set; }
         [Required]

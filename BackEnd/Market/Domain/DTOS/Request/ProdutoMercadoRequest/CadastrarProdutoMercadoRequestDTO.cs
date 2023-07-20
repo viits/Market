@@ -12,7 +12,7 @@ namespace Domain.DTOS.Request.ProdutoMercadoRequest
         [Required]
         public double Valor { get; set; }
         public string EnderecoImagem { get; set; }
-        public int MercadoId { get; set; }
+        public int? MercadoId { get; set; }
         public int ProdutoId { get; set; }
     }
 }

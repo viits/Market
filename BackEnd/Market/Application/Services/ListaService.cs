@@ -43,36 +43,28 @@ namespace Application.Services
         {
             try
             {
-                var lista = _contex.Listas.Where(l => l.MercadoId == usuarioId)
-                    .Join(_contex.Mercados, l => l.MercadoId, m=> m.Id ,(l, m) => new
-                    {
-                        ListaId = l.Id,
-                        MercadoId = m.Id,
-                        NomeMercado = m.NomeMercado,
-                        CdProduto= l.CdProduto
-                    })
-                    .Join(_contex.ProdutosMercados, l=> l.MercadoId,pm=> pm.MercadoId, (l, pm) => new {
-                        ValorProduto = pm.Valor,
-                        ListaId = l.ListaId,
-                        MercadoId = pm.MercadoId,
-                        NomeMercado = l.NomeMercado,
-                        EnderecoImagem = pm.EnderecoImagem,
-                        CdProduto = l.CdProduto,
-                        ProdutoId = pm.ProdutoId
-                    }).Where(pm=> pm.ProdutoId == pm.CdProduto)
-                    .Join(_contex.Produtos, pm=> pm.CdProduto, p=> p.Id,(pm,p)=> new ListaResponseDTO()
-                    {
-                        ListaId = pm.ListaId,
-                        MercadoId = pm.MercadoId,
-                        NomeMercado = pm.NomeMercado,
-                        ValorProduto = pm.ValorProduto,
-                        EnderecoImagem = pm.EnderecoImagem,
-                        ProdutoId = p.Id,
-                        NomeProduto = p.Nome
-                    }).ToList();
-                
+
+                var lista = (from l in _contex.Listas
+                             join m in _contex.Mercados on l.MercadoId equals m.Id
+                             join pm in _contex.ProdutosMercados on  l.MercadoId  equals pm.MercadoId where l.CdProduto == pm.ProdutoId
+                             join p in _contex.Produtos on pm.ProdutoId equals p.Id
+                             where l.UsuarioId == usuarioId && l.CdProduto == pm.ProdutoId
+                             select new ListaResponseDTO
+                             {
+                                 ListaId = l.Id,
+                                 MercadoId = m.Id,
+                                 UsuarioId = l.UsuarioId,
+                                 NomeMercado = m.NomeMercado,
+                                 ValorProduto = pm.Valor,
+                                 EnderecoImagem = pm.EnderecoImagem,
+                                 ProdutoId = p.Id,
+                                 NomeProduto = p.Nome,
+                                 QuantidadeProduto = l.QuantidadeProduto
+                             }).ToList();
+
                 return lista;
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -13,6 +13,7 @@ namespace Market.Controllers
     {
         private readonly ILista _lista;
         private readonly IHttpContextAccessor _httpContext;
+
         public ListaController(ILista lista, IHttpContextAccessor httpContext)
         {
             _lista = lista;
@@ -24,6 +25,7 @@ namespace Market.Controllers
         {
             try
             {
+                dto.UsuarioId = Convert.ToInt32(_httpContext.HttpContext.User.FindFirst(x => x.Type == "id")?.Value);
                 var resultado = _lista.CadastrarLista(dto);
                 if (resultado.IsFailed) return BadRequest(resultado.Reasons);
                 return Ok(resultado.Reasons);

@@ -12,6 +12,8 @@ namespace Domain.DTOS.Request
         [Required]
         public string NomeLista { get; set; }
         [Required]
+        public int QuantidadeProduto { get; set; }
+        [Required]
         public int CdProduto { get; set; }
         [Required]
         public int UsuarioId { get; set; }

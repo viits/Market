@@ -27,6 +27,31 @@ namespace Application.Services
             _tokenService = tokenService;
             _emailService = emailService;
         }
+
+        public MercadoResponseDTO getMercadoById(int mercadoId)
+        {
+            try
+            {
+                var mercado = _context.Mercados.Where(m=> m.Id == mercadoId).FirstOrDefault();
+                if (mercado == null) return null;
+                return _mapper.Map<MercadoResponseDTO>(mercado);
+            }
+            catch(Exception ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<MercadoResponseDTO> getListMercado()
+        {
+            try
+            {
+                var mercados = _context.Mercados.ToList();
+                return _mapper.Map<List<MercadoResponseDTO>>(mercados);
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public Result AtivarMercado(AtivarContaDTO request)
         {
             try
@@ -88,14 +113,25 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public MercadoResponseDTO MercadoById(int id)
+        public Result UpdateMercado(UpdateMercadoRequestDTO mercadoDTO)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<MercadoResponseDTO> MercadoList()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                var mercado = getMercadoById(mercadoDTO.Id);
+                if (mercado == null) return Result.Fail("Mercado não encontrado!");
+                mercado.NomeMercado = mercadoDTO.NomeMercado;
+                mercado.EnderecoMercado = mercadoDTO.EnderecoMercado;
+                mercado.NomeBairro = mercadoDTO.NomeBairro;
+                mercado.NumeroEndereco = mercadoDTO.NumeroEndereco;
+                var mercadoB = _mapper.Map<Mercado>(mercado); 
+                _context.Mercados.Update(mercadoB);
+                _context.SaveChanges();
+                return Result.Ok().WithSuccess("Mercado Atualizado com sucesso!");
+            }
+            catch(Exception ex)
+            {
+                return Result.Fail(ex.Message);
+            }
         }
     }
 }

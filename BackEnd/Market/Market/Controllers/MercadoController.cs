@@ -10,9 +10,12 @@ namespace Market.Controllers
     public class MercadoController:ControllerBase
     {
         private readonly IMercado _context;
-        public MercadoController(IMercado context)
+        private readonly IProdutoMercado _produtoMercado;
+        public MercadoController(IMercado context, IProdutoMercado mercadoMercado)
         {
             _context = context;
+            _produtoMercado = mercadoMercado;
+
         }
         [HttpPost]
         public IActionResult CadastrarMercado([FromBody] CadastrarMercadoRequestDTO mercadoDTO)
@@ -27,6 +30,22 @@ namespace Market.Controllers
             var resultado = _context.AtivarMercado(conta);
             if (resultado.IsFailed) return BadRequest(resultado.Reasons);
             return Ok(resultado.Reasons);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetMercadoById(int id)
+        {
+            return Ok(_context.getMercadoById(id));
+        }
+        [HttpGet]
+        public IActionResult getMercados()
+        {
+            return Ok(_context.getListMercado());
+        }
+        [HttpGet("produtoMercado/{id}")]
+        public IActionResult getProdutoMercado(int id)
+        {
+            var produtoMercado = _produtoMercado.TodosProdutosMercados(id);
+            return Ok(produtoMercado);
         }
     }
 }

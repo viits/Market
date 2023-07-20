@@ -1,4 +1,5 @@
 ﻿using Domain.DTOS.Request;
+using Domain.DTOS.Response;
 using FluentResults;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Application.Interface
 {
     public interface ILogin
     {
-        Result LoginMercado(LoginRequestDTO login);
-        Result LoginUsuario(LoginRequestDTO login);
+        LoginResponseDTO LoginMercado(LoginRequestDTO login);
+        LoginUsuarioResponseDTO LoginUsuario(LoginRequestDTO login);
     }
 }

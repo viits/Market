@@ -16,6 +16,7 @@ namespace Domain.Profiles
         {
             CreateMap<CadastrarMercadoRequestDTO, Mercado>();
             CreateMap<Mercado, MercadoResponseDTO>();
+            CreateMap<UpdateMercadoRequestDTO, Mercado>();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Domain.Model
         public int Id { get; set; }
         [Required]
         public string NomeLista { get; set; }
+        public int QuantidadeProduto { get; set; }
         public int CdProduto { get; set; }
         public int UsuarioId { get; set; }
         public int MercadoId { get; set; }
